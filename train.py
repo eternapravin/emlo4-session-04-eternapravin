@@ -67,7 +67,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Infer using trained Dogbreed Classifier")
-    parser.add_argument("--checkpoint", help="Model checkpoint(or 'pretrained=<model_id>')")
+    #parser.add_argument("--checkpoint", help="Model checkpoint(or 'pretrained=<model_id>')")
     parser.add_argument("--data", type=str, required=True, help="Path to data containing images")
     parser.add_argument("--logs", type=str, required=True, help="Path to logs")
     parser.add_argument("--ckpt_path", type=str, required=True, help="Path to model checkpoint")
