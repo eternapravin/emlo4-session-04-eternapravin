@@ -6,22 +6,22 @@ import lightning as L
 from lightning.pytorch.callbacks import ModelCheckpoint, RichProgressBar, RichModelSummary
 from lightning.pytorch.loggers import TensorBoardLogger
 
-from dogbreed_modules import DogBreedImageDataModule
-from dogbreed_classifier import DogBreedClassifier
-from logging_utils import setup_logger, task_wrapper
+from datamodules.dogbreed_modules import DogBreedImageDataModule
+from models.dogbreed_classifier import DogBreedClassifier
+from utils.logging_utils import setup_logger, task_wrapper
 
 @task_wrapper
-def train_and_save(data_module, model, trainer, save_path="model_storage/model.ckpt"):
+def train_and_save(data_module, model, trainer, save_path="../model_storage/model.ckpt"):
     trainer.fit(model, data_module)
-    trainer.test(model, data_module)
-    model.save_model(save_path)
-    print(f"Model saved to {save_path}")
+    # trainer.test(model, data_module)
+    # model.save_model(save_path)
+    # print(f"Model saved to {save_path}")
 
 class CustomModelCheckpiont(ModelCheckpoint):
     def _save_checkpoint(self, trainer, filepath):
         trainer.lightning_module.save_transformed_model = True
         super()._save_checkpoint(trainer, filepath)
-        print(filepath)
+        # print(filepath)
 
 def main(args):
     # Set up paths
@@ -59,15 +59,12 @@ def main(args):
         accelerator="auto",
         logger=TensorBoardLogger(save_dir=log_dir, name="dogbreed_classification"),
     )
-    #new_ckpt["pytorch-lightning_version"] = "2.4.0"
-    #torch.save(new_ckpt, f"{rootdir}/model.ckpt")
 
     # Train and test the model
     train_and_save(data_module, model, trainer)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Infer using trained Dogbreed Classifier")
-    #parser.add_argument("--checkpoint", help="Model checkpoint(or 'pretrained=<model_id>')")
     parser.add_argument("--data", type=str, required=True, help="Path to data containing images")
     parser.add_argument("--logs", type=str, required=True, help="Path to logs")
     parser.add_argument("--ckpt_path", type=str, required=True, help="Path to model checkpoint")

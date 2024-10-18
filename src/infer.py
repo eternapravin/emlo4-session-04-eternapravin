@@ -9,8 +9,8 @@ from torchvision import transforms
 import os
 import random
 
-from dogbreed_classifier import DogBreedClassifier
-from logging_utils import setup_logger, task_wrapper, get_rich_progress
+from models.dogbreed_classifier import DogBreedClassifier
+from utils.logging_utils import setup_logger, task_wrapper, get_rich_progress
 
 @task_wrapper
 def load_image(image_path):

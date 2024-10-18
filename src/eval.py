@@ -5,8 +5,8 @@ import lightning as L
 from lightning.pytorch import Trainer
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning import seed_everything
-from dogbreed_classifier import DogBreedClassifier  # Assuming your model is in a file named model.py
-from dogbreed_modules import DogBreedImageDataModule  # Assuming you have a DataModule
+from models.dogbreed_classifier import DogBreedClassifier  # Assuming your model is in a file named model.py
+from datamodules.dogbreed_modules import DogBreedImageDataModule  # Assuming you have a DataModule
 
 def evaluate_model(ckpt_path, data_dir):
     # Set seed for reproducibility
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--data", type=str, required=True, help="Path to data containing images")
     parser.add_argument("--ckpt_path", type=str, required=True, help="Path to model checkpoint")
     args = parser.parse_args()
-    ckpt_path = "./model_storage/model.ckpt"  # Replace with your checkpoint path
-    data_dir = "./data"  # Replace with your data directory
+    # ckpt_path = "./model_storage/model.ckpt"  # Replace with your checkpoint path
+    # data_dir = "./data"  # Replace with your data directory
     
     evaluate_model(args.ckpt_path, args.data)
